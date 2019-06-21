@@ -4,7 +4,7 @@ ENV HELM_VERSION 2.11.0
 ENV KUBERNETES_VERSION 1.10.9
 
 RUN apk update && \
-    apk add -U openssl curl tar gzip bash ca-certificates git; \
+    apk add -U openssl curl tar gzip bash ca-certificates git unzip; \
     curl -L -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub; \
     curl -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk; \
     apk add glibc-2.28-r0.apk; \
@@ -20,6 +20,8 @@ RUN curl -L -o /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-relea
     chmod +x /usr/bin/kubectl; \
     kubectl version --client
 
-RUN curl -L "https://github.com/hacdescm/certs/archive/master.zip" | tar zx; \
-    mv certs-master/*.crt /usr/local/share/ca-certificates; \
+RUN cd /usr/local/share/ca-certificates; \
+    curl -L -O "https://github.com/hacdescm/certs/archive/master.zip"; \
+    unzip -j master.zip; \
+    rm master.zip; \ 
     update-ca-certificates
