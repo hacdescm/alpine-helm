@@ -1,7 +1,7 @@
 FROM alpine:latest
 
-ENV HELM_VERSION 2.11.0
-ENV KUBERNETES_VERSION 1.10.9
+ENV HELM_VERSION 2.13.1
+ENV KUBERNETES_VERSION 1.11.9
 
 RUN apk update && \
     apk add -U openssl curl tar gzip bash ca-certificates git wget unzip; \
@@ -21,7 +21,8 @@ RUN curl -L -o /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-relea
     kubectl version --client
 
 RUN cd /usr/local/share/ca-certificates; \
-    curl -L -O "https://github.com/hacdescm/certs/archive/master.zip"; \
+    wget -q https://github.com/hacdescm/certs/archive/master.zip; \
     unzip -j master.zip; \
-    rm master.zip; \ 
-    update-ca-certificates
+    rm master.zip
+
+RUN update-ca-certificates
