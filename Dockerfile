@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV HELM_VERSION 3.2.0
+ENV HELM_VERSION 3.2.4
 ENV KUBERNETES_VERSION 1.11.9
 
 RUN apk update && \
